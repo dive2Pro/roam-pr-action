@@ -46,17 +46,14 @@ jobs:
         run: |
           git add extensions/hyc/roam-native-dark.json
           git commit -m "Update source_commit to $GITHUB_SHA"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT }}
-          branch: Native-Dark
+          git push -u origin Native-Dark
       - name: Create pull request
-        uses: repo-sync/pull-request@v2
+        uses: dive2Pro/create-pull-request
         with:
-          destination_branch: "main"
-          destination_repository: "Roam-Research/roam-depot"
-          source_branch: "Native-Dark"
-          github_token: ${{ secrets.PAT }}
-          pr_title: 'Update Native Dark'
-          pr_body: 'This is a pull request created by a GitHub Action.'
+          base: main
+          branch: Native-Dark
+          token: ${{ secrets.PAT }}
+          commit-message: 'Update Native Dark'
+          title: 'Update Native Dark'
+          body: 'This is a pull request created by a GitHub Action.'
+          dest: 'https://github.com/Roam-Research/roam-depot'
