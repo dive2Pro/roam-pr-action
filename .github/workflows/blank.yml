@@ -25,3 +25,6 @@ jobs:
           git config --global user.name "toylucklebo@gmail.com"
           git commit -am "Update source_commit field to ${GITHUB_SHA}"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          PAT: ${{ secrets.PAT }}
