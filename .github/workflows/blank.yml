@@ -17,7 +17,7 @@ jobs:
       - name: Checkout roam-depot repository
         uses: actions/checkout@v2
         with:
-          repository: Roam-Research/roam-depot
+          repository: dive2Pro/roam-depot
           ref: main
           token: ${{ secrets.PAT }}
 
@@ -26,7 +26,15 @@ jobs:
           git branch -D Native-Dark || true
           git fetch --all
           git branch -D Native-Dark || true
-
+      - name: Sync fork
+        run: |
+          git config user.name "hyc"
+          git config user.email "toylucklebo@gmail.com"
+          git fetch --prune --unshallow
+          git remote add upstream "https://github.com/Roam-Research/roam-depot"
+          git fetch upstream
+          git checkout -B main upstream/main
+          git push -f origin main
       - name: Create Native-Dark branch from main
         run: |
           git checkout -b Native-Dark origin/main
