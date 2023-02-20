@@ -27,7 +27,8 @@ jobs:
         run: |
           sed -i 's/"source_commit": "[^"]*"/"source_commit": "'"$GITHUB_SHA"'"/' extensions/hyc/roam-native-dark.json
           git add extensions/hyc/roam-native-dark.json
-          git commit -m "Update Native Dark"
+          git commit -m "Update Native Dark to $GITHUB_SHA"
+          git push -u origin Native-Dark
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
