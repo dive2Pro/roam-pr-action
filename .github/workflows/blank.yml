@@ -51,6 +51,8 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v4
         with:
+          repo: 'Roam-Research/roam-depot'
+          base: 'main'
           token: ${{ secrets.PAT }}
           commit-message: 'Update Native Dark'
           title: 'Update Native Dark'
