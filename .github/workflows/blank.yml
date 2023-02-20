@@ -1,4 +1,4 @@
-name: Update Roam Depot Source Commit
+name: Update Native-Dark extension
 on:
   push:
     tags:
@@ -7,15 +7,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout roam-search-plus repository
         uses: actions/checkout@v2
-      - name: Update source_commit field
+        with:
+          repository: dive2Pro/roam-search-plus
+      - name: Checkout roam-depot repository
+        uses: actions/checkout@v2
+        with:
+          repository: dive2Pro/roam-depot
+          ref: Native-Dark
+      - name: Update Native-Dark extension
         run: |
-          sed -i "s/\"source_commit\": \".*\"/\"source_commit\": \"${GITHUB_SHA}\"/" extensions/hyc/roam-native-dark.json
+          sed -i 's/"source_commit": "[^"]*"/"source_commit": "${{ github.sha }}"/' extensions/hyc/roam-native-dark.json
       - name: Commit and push changes
         run: |
-          git config --global user.name 'hyc'
-          git config --global user.email 'toylucklebo@gmail.com'
-          git add extensions/hyc/roam-native-dark.json
-          git commit -m "Update source_commit field"
-          git push origin Native-Dark
+          git config --global user.email "hyc"
+          git config --global user.name "toylucklebo@gmail.com"
+          git commit -am "Update source_commit field to ${GITHUB_SHA}"
+          git push
