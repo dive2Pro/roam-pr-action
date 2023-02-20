@@ -28,9 +28,8 @@ jobs:
 
       - name: Delete Native-Dark branch if exists
         run: |
-          git branch -D Native-Dark || true
-          git fetch --all
-          git branch -D Native-Dark || true
+          git push origin -d Native-Dark
+          
       - name: Create Native-Dark branch from main
         run: |
           git checkout -b Native-Dark origin/main
