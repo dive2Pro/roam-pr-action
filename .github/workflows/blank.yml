@@ -55,5 +55,4 @@ jobs:
           commit-message: 'Update Native Dark'
           title: 'Update Native Dark'
           body: 'This is a pull request created by a GitHub Action.'
-          branch: Native-Dark
-          path: https://github.com/Roam-Research/roam-depot
+          pushToFork: Roam-Research/roam-depot
