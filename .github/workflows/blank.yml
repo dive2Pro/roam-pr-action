@@ -53,11 +53,11 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const branch = 'Native-Dark'; // Replace with the branch you want to create a PR for
-            const owner = 'dive2Pro';
+            const owner = 'Roam-Research';
             const repo = 'roam-depot';
             const title = 'Update Native Dark';
             const body = 'This is a pull request created by a GitHub Action.';
-            const head = 'Roam-Research/roam-depot';
+            const head = '${{ github.repository }}:${{ github.ref }}';
             const base = 'main'; // Replace with the branch you want to merge the PR into
             const { data: pullRequest } = await github.pulls.create({
               owner,
