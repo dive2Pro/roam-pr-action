@@ -1,47 +1,37 @@
-name: Update Native-Dark
-
+name: Update Native Dark
 on:
   push:
     tags:
       - 'publish*'
-
 jobs:
-  update-native-dark:
+  build:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Git
+        run: |
+          git config --global user.name "hyc"
+          git config --global user.email "toylucklebo@gmail.com"
       - name: Checkout roam-depot repository
         uses: actions/checkout@v2
         with:
           repository: dive2Pro/roam-depot
           ref: main
           token: ${{ secrets.PAT }}
-      - name: Sync fork
+      - name: Delete and checkout Native-Dark branch
         run: |
-          git config user.name "hyc"
-          git config user.email "toylucklebo@gmail.com"
-          git fetch --prune --unshallow
-          git remote add upstream "https://github.com/Roam-Research/roam-depot"
-          git fetch upstream
-          git checkout -B main upstream/main
-          git push -f origin main
-
-      - name: Delete Native-Dark branch if exists
-        run: |
-          git push origin -d Native-Dark
-          
-      - name: Create Native-Dark branch from main
-        run: |
+          git push --delete origin Native-Dark
           git checkout -b Native-Dark origin/main
-
-      - name: Update roam-native-dark.json
+      - name: Modify JSON file
         run: |
-          sed -i 's/"source_commit": ".*/"source_commit": "'"$GITHUB_SHA"'",/g' extensions/hyc/roam-native-dark.json
-
-      - name: Commit and Push changes
-        run: |
-          git config --global user.name "hyc"
-          git config --global user.email "toylucklebo@gmail.com"
+          sed -i 's/"source_commit": "[^"]*"/"source_commit": "'"$GITHUB_SHA"'"/' extensions/hyc/roam-native-dark.json
           git add extensions/hyc/roam-native-dark.json
-          git commit -m "Update source_commit to $GITHUB_SHA"
-          git push -u origin Native-Dark
+          git commit -m "Update Native Dark"
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: 'Update Native Dark'
+          title: 'Update Native Dark'
+          body: 'This is a pull request created by a GitHub Action.'
