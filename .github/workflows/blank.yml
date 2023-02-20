@@ -48,11 +48,23 @@ jobs:
           git commit -m "Update source_commit to $GITHUB_SHA"
           git push -u origin Native-Dark
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          base: main
-          branch: Native-Dark
-          token: ${{ secrets.PAT }}
-          commit-message: 'Update Native Dark'
-          title: 'Update Native Dark'
-          body: 'This is a pull request created 2by a GitHub Action.'
+          uses: actions/github-script@v4
+          with:
+            github-token: ${{ secrets.PAT }}
+            script: |
+              const branch = 'Native-Dark'; // Replace with the branch you want to create a PR for
+              const owner = 'dive2Pro';
+              const repo = 'roam-depot';
+              const title = 'Update Native Dark';
+              const body = 'This is a pull request created by a GitHub Action.';
+              const head = 'Roam-Research/roam-depot';
+              const base = 'main'; // Replace with the branch you want to merge the PR into
+              const { data: pullRequest } = await github.pulls.create({
+                owner,
+                repo,
+                title,
+                body,
+                head,
+                base,
+              });
+              console.log(`PR created: ${pullRequest.html_url}`);
