@@ -33,7 +33,7 @@ jobs:
 
       - name: Delete Native-Dark branch if exists
         run: |
-          git push origin -d Native-Dark
+          git push origin -d Native-Dark || true
           
       - name: Create Native-Dark branch from main
         run: |
