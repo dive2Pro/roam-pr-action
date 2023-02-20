@@ -16,7 +16,6 @@ jobs:
         run: |
           git config --global user.name "hyc"
           git config --global user.email "toylucklebo@gmail.com"
-      
       - name: Checkout roam-depot repository
         uses: actions/checkout@v2
         with:
@@ -56,6 +55,4 @@ jobs:
           commit-message: 'Update Native Dark'
           title: 'Update Native Dark'
           body: 'This is a pull request created by a GitHub Action.'
-        env:
-          REPO: Roam-Research/roam-depot
-          OWNER: Roam-Research
+          branch: Native-Dark
