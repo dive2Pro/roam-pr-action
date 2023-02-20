@@ -48,7 +48,7 @@ jobs:
           git commit -m "Update source_commit to $GITHUB_SHA"
           git push -u origin Native-Dark
       - name: Create pull request
-        uses: dive2Pro/create-pull-request@v1.1
+        uses: dive2Pro/create-pull-request@v1.2
         with:
           base: main
           branch: Native-Dark
