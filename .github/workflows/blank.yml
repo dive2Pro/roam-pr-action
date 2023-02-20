@@ -46,7 +46,11 @@ jobs:
         run: |
           git add extensions/hyc/roam-native-dark.json
           git commit -m "Update source_commit to $GITHUB_SHA"
-          git push -u origin Native-Dark
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT }}
+          branch: Native-Dark
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         with:
