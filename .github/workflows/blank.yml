@@ -1,11 +1,14 @@
-name: Update Native-Dark extension
+name: Update Native-Dark
+
 on:
   push:
     tags:
       - 'publish*'
+
 jobs:
-  build:
+  update-native-dark:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout roam-search-plus repository
         uses: actions/checkout@v2
@@ -14,15 +17,28 @@ jobs:
       - name: Checkout roam-depot repository
         uses: actions/checkout@v2
         with:
-          repository: dive2Pro/roam-depot
-          ref: Native-Dark
+          repository: Roam-Research/roam-depot
+          ref: main
           token: ${{ secrets.PAT }}
-      - name: Update Native-Dark extension
+
+      - name: Delete Native-Dark branch if exists
         run: |
-          sed -i 's/"source_commit": "[^"]*"/"source_commit": "${{ github.sha }}"/' extensions/hyc/roam-native-dark.json
-      - name: Commit and push changes
+          git branch -D Native-Dark || true
+          git fetch --all
+          git branch -D Native-Dark || true
+
+      - name: Create Native-Dark branch from main
         run: |
-          git config --global user.email "hyc"
-          git config --global user.name "toylucklebo@gmail.com"
-          git commit -am "Update source_commit field to ${GITHUB_SHA}"
-          git push
+          git checkout -b Native-Dark origin/main
+
+      - name: Update roam-native-dark.json
+        run: |
+          sed -i 's/"source_commit": ".*/"source_commit": "'"$GITHUB_SHA"'",/g' extensions/hyc/roam-native-dark.json
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "hyc"
+          git config --global user.email "toylucklebo@gmail.com"
+          git add extensions/hyc/roam-native-dark.json
+          git commit -m "Update source_commit to $GITHUB_SHA"
+          git push -u origin Native-Dark
