@@ -1,3 +1,10 @@
+name: Update Native-Dark
+
+on:
+  push:
+    tags:
+      - 'publish*'
+
 jobs:
   update-native-dark:
     runs-on: ubuntu-latest
